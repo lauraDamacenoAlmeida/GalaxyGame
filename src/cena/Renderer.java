@@ -1,0 +1,63 @@
+package cena;
+
+import com.jogamp.newt.event.WindowAdapter;
+import com.jogamp.newt.event.WindowEvent;
+import com.jogamp.newt.opengl.GLWindow;
+import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.util.FPSAnimator;
+import input.KeyBoard;
+import java.awt.*;
+import java.awt.event.*;  
+
+
+
+/**
+ *
+ * @author siabr
+ */
+public class Renderer {
+    private static GLWindow window = null;
+    public static int screenWidth = 600;  //1280  - 640
+    public static int screenHeight = 600; //960  - 480
+
+    //Cria a janela de rendeziracao do JOGL
+    public static void init(){    
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        GLProfile.initSingleton();
+        GLProfile profile = GLProfile.get(GLProfile.GL2);
+        GLCapabilities caps = new GLCapabilities(profile);        
+        window = GLWindow.create(caps);
+        window.setSize(screenSize.width, screenSize.height);
+        //window.setResizable(false);
+        
+        Inicial cena_inicial = new Inicial();
+        
+        window.addGLEventListener(cena_inicial); //adiciona a Cena a Janela  
+        //Habilita o teclado : cena
+        window.addKeyListener(new KeyBoard(cena_inicial));
+        //Habilita o mouse : cena
+        window.addMouseListener(new KeyBoard(cena_inicial));
+        
+        //window.requestFocus();
+        FPSAnimator animator = new FPSAnimator(window, 60);
+        animator.start(); //inicia o loop de animacao
+        
+        //encerrar a aplicacao adequadamente
+        window.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowDestroyNotify(WindowEvent e) {
+                animator.stop();
+                System.exit(0);
+            }
+        });       
+        
+        //window.setFullscreen(true);        
+        window.setVisible(true);
+    }
+  
+    public static void main(String[] args) {
+        init();
+    }
+}
