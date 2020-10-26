@@ -39,7 +39,6 @@ public class Renderer {
         window.addKeyListener(new KeyBoard(cena_inicial));
         //Habilita o mouse : cena
         window.addMouseListener(new KeyBoard(cena_inicial));
-        
         //window.requestFocus();
         FPSAnimator animator = new FPSAnimator(window, 60);
         animator.start(); //inicia o loop de animacao

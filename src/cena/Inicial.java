@@ -33,6 +33,7 @@ public class Inicial implements GLEventListener{
     private static GLWindow window = null;
 
     public float mouseX = 0;
+    public boolean clicked = false;
     public float mouseY = 0;
     public float tx = 0;
     public float ty = 0;
@@ -62,9 +63,24 @@ public class Inicial implements GLEventListener{
         //limpa o buffer de profundidade
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity(); //lê a matriz identidade
-        desenha_estrelas(drawable,gl);
+     //   desenha_estrelas(drawable,gl);
         desenhaTexto(gl,0,570, Color.YELLOW,  "Welcome to Galaxy Wars");
         desenhaTexto(gl,250,300, Color.YELLOW,  "Start");
+        
+        if (clicked == true){
+            gl = drawable.getGL().getGL2();
+            glut = new GLUT(); //objeto da biblioteca glut
+
+            //define a cor da janela (R, G, G, alpha)
+            gl.glClearColor(0, 0, 0, 1);
+            //limpa a janela com a cor especificada
+
+            //limpa o buffer de profundidade
+            gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
+            gl.glLoadIdentity(); //lê a matriz identidade
+            desenha_estrelas(drawable,gl);
+            
+        }
 //        desenhaTexto(gl,250,200, Color.YELLOW,  "Sair");
 
 
@@ -86,18 +102,17 @@ public class Inicial implements GLEventListener{
     public void desenha_estrelas(GLAutoDrawable drawable, GL2 gl){
             gl.glPushMatrix();   
             gl.glTranslatef( 0.7f, 0.7f , 0 );  //canto superior direito
-            gl.glScalef(0.5f, 0.5f,  1 );//diminuiindo escala
+            gl.glScalef(100, 100,  100);//diminuiindo escala
             gl.glRotatef(45, 0, 0 , 1); // rotacionar em 45 graus no eixo Z
+            gl.glColor3f(1,1,0); // cor amarela
             gl.glBegin(GL2.GL_QUADS);
-            gl.glColor3f(1.0f,1.0f,0); //cor amarela
-
+             //cor amarela
             gl.glVertex2f(0.6f,0.3f); 
             gl.glVertex2f(0.6f,0.2f); 
             gl.glVertex2f(0.7f,0.2f);  
             gl.glVertex2f(0.7f,0.3f);
-
-            gl.glEnd();
             gl.glPopMatrix();
+            gl.glEnd();
     }
     
     
@@ -123,66 +138,5 @@ public class Inicial implements GLEventListener{
     @Override
     public void dispose(GLAutoDrawable drawable) {
     }
-
-    public void mouseClicked(MouseEvent e) {
-        int botao = e.getButton();
-        if(botao == MouseEvent.BUTTON1){
-            System.out.println("Clique ESQ");
-
-            //Pega as coordenados do clique do mouse
-            mouseX = (float)e.getX();
-            mouseY = (float)e.getY();	
-
-            //Realiza da conversão das coordenadas da tela para coordenadas da janela
-            tx = ( (2 * 100 * mouseX) / larguraFrame) - 100;
-            ty = ( ( (2 * 100) * (mouseY-alturaFrame) ) / - alturaFrame) - 100;
-            
-            System.out.println("tx: " + tx + ", ty: " + ty);
-        }
-        System.out.println("mouse");
-//adiciona a Cena a Janela  
-
-
-
-        
-    }
-//
-//    @Override
-//    public void mouseEntered(MouseEvent e) {}
-//
-//    @Override
-//    public void mouseExited(MouseEvent e) {}
-//
-//    @Override
-//    public void mousePressed(MouseEvent e) {
-//        /*int botao = e.getButton();
-//
-//        if(botao == MouseEvent.BUTTON1){
-//            System.out.println("Clique ESQ");
-//
-//            //Pega as coordenados do clique do mouse
-//            mouseX = (float)e.getX();
-//            mouseY = (float)e.getY();	
-//
-//            //Realiza da conversão das coordenadas da tela para coordenadas da janela
-//            tx = ( (2 * 100 * mouseX) / larguraFrame) - 100;
-//            ty = ( ( (2 * 100) * (mouseY-alturaFrame) ) / - alturaFrame) - 100;
-//            
-//            System.out.println("tx: " + tx + ", ty: " + ty);
-//        }
-//        System.out.println("mouse");
-//        */
-//    }
-//
-//    @Override
-//    public void mouseReleased(MouseEvent e) {}
-//
-//    @Override
-//    public void mouseMoved(MouseEvent e) {}
-//
-//    @Override
-//    public void mouseDragged(MouseEvent e) {}
-//
-//    @Override
-//    public void mouseWheelMoved(MouseEvent e) {}
 }
+   
