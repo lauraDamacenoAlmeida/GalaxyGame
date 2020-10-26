@@ -46,7 +46,7 @@ public class KeyBoard implements KeyListener, MouseListener{
 
         if(botao == MouseEvent.BUTTON1){
             System.out.println("Clique ESQ");
-
+            cena_inicial.clicked = true;
             //Pega as coordenados do clique do mouse
             cena_inicial.mouseX = (float)e.getX();
             cena_inicial.mouseY = (float)e.getY();	
