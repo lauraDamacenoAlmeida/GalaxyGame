@@ -13,7 +13,7 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.gl2.GLUT; //primitivas 3D
-
+import java.util.Random;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Font;
@@ -39,6 +39,7 @@ public class Inicial implements GLEventListener{
     public float ty = 0;
     public int larguraFrame;
     public int alturaFrame;
+    Random r = new Random();
 
     @Override
     public void init(GLAutoDrawable drawable) {
@@ -67,6 +68,9 @@ public class Inicial implements GLEventListener{
         desenhaTexto(gl,0,570, Color.YELLOW,  "Welcome to Galaxy Wars");
         desenhaTexto(gl,250,300, Color.YELLOW,  "Start");
         
+            asteroide(drawable,gl);
+            asteroide1(drawable, gl);
+        
         if (clicked == true){
             gl = drawable.getGL().getGL2();
             glut = new GLUT(); //objeto da biblioteca glut
@@ -78,15 +82,68 @@ public class Inicial implements GLEventListener{
             //limpa o buffer de profundidade
             gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
             gl.glLoadIdentity(); //lê a matriz identidade
-            desenha_estrelas(drawable,gl);
+            asteroide(drawable, gl);
+        //    asteroide1(drawable,gl);   
             
-        }
+            gl.glEnd();
+            
+        
 //        desenhaTexto(gl,250,200, Color.YELLOW,  "Sair");
-
 
         gl.glFlush();
     }
+    }
 
+    public void asteroide(GLAutoDrawable drawable, GL2 gl){
+        
+            int randomPosX = r.nextInt((-90 + 180) + 1) - 90;
+            int randomPosY = r.nextInt((95-70) + 1) + 70;
+        //    int randomPosZ = r.nextInt((60-30) + 1) + 30;
+        
+            gl.glPushMatrix();
+            gl.glScalef(0.5f, 0.3f, 0.5f);
+            gl.glTranslatef(70, 70, 70);
+            gl.glBegin(GL2.GL_POLYGON);
+                gl.glVertex2f(2.0f, 4f);
+                gl.glVertex2f(2.5f, 5f);
+                gl.glVertex2f(2.4f, 6f);
+                gl.glVertex2f(3f, 6.3f);
+                gl.glVertex2f(4f, 5.5f);
+                gl.glVertex2f(5f, 5.5f);
+                gl.glVertex2f(5.3f, 2.3f);
+                gl.glVertex2f(4.6f, -1f);
+                gl.glVertex2f(4.4f, -2f);
+                gl.glVertex2f(3.8f, -3f);
+                gl.glVertex2f(2.6f, -2f);
+                gl.glVertex2f(2.5f, -1.2f);
+           gl.glPopMatrix();
+    }
+    
+        public void asteroide1(GLAutoDrawable drawable, GL2 gl){
+            int randomPosX = r.nextInt((-90 + 180) + 1) - 90;
+            int randomPosY = r.nextInt((95-70) + 1) + 70;
+        //    int randomPosZ = r.nextInt((60-30) + 1) + 30;
+            gl.glPushMatrix();
+            gl.glScalef(0.5f, 0.3f, 0.5f);
+            gl.glTranslatef(-80, 80, 80);
+            gl.glBegin(GL2.GL_POLYGON);
+                gl.glVertex2f(2.0f, 4f);
+                gl.glVertex2f(2.5f, 5f);
+                gl.glVertex2f(2.4f, 6f);
+                gl.glVertex2f(3f, 6.3f);
+                gl.glVertex2f(4f, 5.5f);
+                gl.glVertex2f(5f, 5.5f);
+                gl.glVertex2f(5.3f, 2.3f);
+                gl.glVertex2f(4.6f, -1f);
+                gl.glVertex2f(4.4f, -2f);
+                gl.glVertex2f(3.8f, -3f);
+                gl.glVertex2f(2.6f, -2f);
+                gl.glVertex2f(2.5f, -1.2f);
+           gl.glPopMatrix();
+    }
+    
+    
+    
     public void desenhaTexto(GL2 gl, int x, int y,Color cor, String frase) {
         textRenderer.beginRendering(Renderer.screenWidth, Renderer.screenHeight);       
         textRenderer.setColor(cor);
