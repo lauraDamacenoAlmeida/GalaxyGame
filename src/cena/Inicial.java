@@ -67,10 +67,7 @@ public class Inicial implements GLEventListener{
      //   desenha_estrelas(drawable,gl);
         desenhaTexto(gl,0,570, Color.YELLOW,  "Welcome to Galaxy Wars");
         desenhaTexto(gl,250,300, Color.YELLOW,  "Start");
-        
-            asteroide(drawable,gl);
-            asteroide1(drawable, gl);
-        
+      
         if (clicked == true){
             gl = drawable.getGL().getGL2();
             glut = new GLUT(); //objeto da biblioteca glut
@@ -83,15 +80,10 @@ public class Inicial implements GLEventListener{
             gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
             gl.glLoadIdentity(); //lê a matriz identidade
             asteroide(drawable, gl);
-        //    asteroide1(drawable,gl);   
-            
-            gl.glEnd();
-            
-        
+        }
+        gl.glEnd();
 //        desenhaTexto(gl,250,200, Color.YELLOW,  "Sair");
-
         gl.glFlush();
-    }
     }
 
     public void asteroide(GLAutoDrawable drawable, GL2 gl){
