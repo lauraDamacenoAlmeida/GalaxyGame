@@ -23,18 +23,15 @@ public class KeyBoard implements KeyListener, MouseListener{
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
             System.exit(0);
         
-//        switch (e.getKeyChar()) {
-//            case 'r':
-//                cena_inicial.angulo += 45;
-//                break;
-//            case 't':
-//                cena_inicial.tonalizacao = cena_inicial.tonalizacao == GL2.GL_SMOOTH ? GL2.GL_FLAT : GL2.GL_SMOOTH;
-//                break;
-//            case 'l':
-//                cena_inicial.liga = !cena_inicial.liga;
-//                System.out.println(cena_inicial.liga);
-//                break;
-//        }
+        switch (e.getKeyCode()) {
+            case 149:
+                cena_inicial.position -= 1.0f;
+                break;
+            case 151:
+                cena_inicial.position += 1.0f;
+                break;
+            
+        }
     }
 
     @Override

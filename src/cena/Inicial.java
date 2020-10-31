@@ -39,6 +39,7 @@ public class Inicial implements GLEventListener{
     public float ty = 0;
     public int larguraFrame;
     public int alturaFrame;
+    public float position = 0.0f;
     Random r = new Random();
 
     @Override
@@ -67,7 +68,14 @@ public class Inicial implements GLEventListener{
      //   desenha_estrelas(drawable,gl);
         desenhaTexto(gl,0,570, Color.YELLOW,  "Welcome to Galaxy Wars");
         desenhaTexto(gl,250,300, Color.YELLOW,  "Start");
-      
+        double i, cX, cY, rX, rY;
+        cX = 0;
+        cY = 0;
+        //Valores diferentes geram elipses
+        rX = 5f;
+        rY = 5f;
+
+        double limite = 2*Math.PI;
         if (clicked == true){
             gl = drawable.getGL().getGL2();
             glut = new GLUT(); //objeto da biblioteca glut
@@ -75,26 +83,58 @@ public class Inicial implements GLEventListener{
             //define a cor da janela (R, G, G, alpha)
             gl.glClearColor(0, 0, 0, 1);
             //limpa a janela com a cor especificada
-
+            
             //limpa o buffer de profundidade
             gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
             gl.glLoadIdentity(); //lê a matriz identidade
-            asteroide(drawable, gl);
+            int randomPosX = r.nextInt((-90 + 180) + 1) - 90;
+            int randomPosY = r.nextInt((95-70) + 1) + 70;
+            int x = 0;
+            gl.glPushMatrix();
+            gl.glColor3f(1,1,0); // cor amarela
+            gl.glTranslatef(position, -100, 0);
+            gl.glBegin(GL2.GL_QUADS);
+                    gl.glVertex2f(0.0f, 0.0f);
+                    gl.glVertex2f(0f, 5f);
+                    gl.glVertex2f(15f, 5f);
+                    gl.glVertex2f(15f, 0f);
+            gl.glPopMatrix();
+            gl.glEnd();
+            
+            gl.glPushMatrix();
+            gl.glScalef(0.2f, 0.3f, 0f);
+            gl.glTranslatef(randomPosX, randomPosY, 1);
+            gl.glBegin(GL2.GL_POLYGON);
+            for(i=0 ; i < limite; i+= 0.01) {
+                    gl.glVertex2d(cX + rX * Math.cos(i), cY + rY * Math.sin(i));		   
+            }
+            gl.glPopMatrix();
+            gl.glEnd();
         }
-        gl.glEnd();
-//        desenhaTexto(gl,250,200, Color.YELLOW,  "Sair");
         gl.glFlush();
+//        desenhaTexto(gl,250,200, Color.YELLOW,  "Sair");
     }
 
-    public void asteroide(GLAutoDrawable drawable, GL2 gl){
-        
+    public void asteroide(GLAutoDrawable drawable){
+            
+            gl = drawable.getGL().getGL2();
+            glut = new GLUT(); //objeto da biblioteca glut
+
+            //define a cor da janela (R, G, G, alpha)
+            gl.glClearColor(0, 0, 0, 1);
+            //limpa a janela com a cor especificada
+            
+            //limpa o buffer de profundidade
+            gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
+            gl.glLoadIdentity(); //lê a matriz identidade
+            
             int randomPosX = r.nextInt((-90 + 180) + 1) - 90;
             int randomPosY = r.nextInt((95-70) + 1) + 70;
         //    int randomPosZ = r.nextInt((60-30) + 1) + 30;
         
             gl.glPushMatrix();
             gl.glScalef(0.5f, 0.3f, 0.5f);
-            gl.glTranslatef(70, 70, 70);
+            gl.glTranslatef(randomPosX, randomPosY, 1);
             gl.glBegin(GL2.GL_POLYGON);
                 gl.glVertex2f(2.0f, 4f);
                 gl.glVertex2f(2.5f, 5f);
@@ -109,15 +149,16 @@ public class Inicial implements GLEventListener{
                 gl.glVertex2f(2.6f, -2f);
                 gl.glVertex2f(2.5f, -1.2f);
            gl.glPopMatrix();
+           gl.glEnd();
     }
     
-        public void asteroide1(GLAutoDrawable drawable, GL2 gl){
+        public void asteroide1(GL2 gl){
             int randomPosX = r.nextInt((-90 + 180) + 1) - 90;
             int randomPosY = r.nextInt((95-70) + 1) + 70;
         //    int randomPosZ = r.nextInt((60-30) + 1) + 30;
             gl.glPushMatrix();
             gl.glScalef(0.5f, 0.3f, 0.5f);
-            gl.glTranslatef(-80, 80, 80);
+            gl.glTranslatef(randomPosX, randomPosY, 1);
             gl.glBegin(GL2.GL_POLYGON);
                 gl.glVertex2f(2.0f, 4f);
                 gl.glVertex2f(2.5f, 5f);
@@ -132,6 +173,7 @@ public class Inicial implements GLEventListener{
                 gl.glVertex2f(2.6f, -2f);
                 gl.glVertex2f(2.5f, -1.2f);
            gl.glPopMatrix();
+           gl.glEnd();
     }
     
     
