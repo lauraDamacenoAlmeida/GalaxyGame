@@ -50,8 +50,6 @@ public class Inicial implements GLEventListener{
     public boolean topo_inferior;
     private float xTranslateBall = 0;
     private float yTranslateBall = 100f;
-    private char xDirection;
-    private char yDirection = 'd';
     
     Random r = new Random();
 
@@ -154,27 +152,37 @@ public class Inicial implements GLEventListener{
         }else if (xTranslateBall <= -100){
             lado_esquerdo = true;
             lado_direito = false;
+            topo_inferior = false;
+            topo_superior = false;
         }else if (yTranslateBall >= 100){
             topo_superior = true;
             topo_inferior = false;
         }else if (yTranslateBall <= -100){
-            System.out.println("TOPO INFERIOR TRUE");
             topo_inferior = true;
             topo_superior = false;
-            lado_direito = false; // cagada aqui, precisa de mais ifs
         }
-        if (lado_direito == true){
+        if (topo_inferior == true && lado_direito == true){
+            lado_direito = false;
+            lado_esquerdo = true;
+        }else if (lado_esquerdo == true && topo_inferior == true){
+            xTranslateBall -= Math.random() * (0.8 - 0.5) + 0.5;
+            yTranslateBall += Math.random() * (0.8 - 0.5) + 0.5;
+        }
+        else if (lado_direito == true){
             xTranslateBall -= Math.random() * (0.8 - 0.5) + 0.5;
             yTranslateBall -= Math.random() * (0.8 - 0.5) + 0.5;
+        }else if (lado_esquerdo == true && topo_superior == false){
+            xTranslateBall += Math.random() * (0.8 - 0.5) + 0.5;
+            yTranslateBall += Math.random() * (0.8 - 0.5) + 0.5;
         }else if (lado_esquerdo == true){
             xTranslateBall += Math.random() * (0.8 - 0.5) + 0.5;
             yTranslateBall -= Math.random() * (0.8 - 0.5) + 0.5;
-        }else if (topo_superior == true){
+        }
+        else if (topo_superior == true){
             yTranslateBall -= Math.random() * (0.8 - 0.5) + 0.5;
         }else if (topo_inferior == true){
             yTranslateBall += Math.random() * (0.8 - 0.5) + 0.5;
         }
-
     }
 	
     public void desenhaTexto(GL2 gl, int x, int y,Color cor, String frase) {
