@@ -30,7 +30,9 @@ public class KeyBoard implements KeyListener, MouseListener{
             case 151:
                 cena_inicial.position += 1.0f;
                 break;
-            
+            case 49:
+                cena_inicial.fase = 1;
+                break;
         }
     }
 

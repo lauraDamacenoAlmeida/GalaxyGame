@@ -44,7 +44,7 @@ public class Final implements GLEventListener {
         //dados iniciais da cena
         GL2 gl = drawable.getGL().getGL2();
         textRenderer = new TextRenderer(new Font("Comic Sans MS Negrito", Font.PLAIN, 38));
-
+        
         //habilita o buffer de profundidade
         gl.glEnable(GL2.GL_DEPTH_TEST);
     }
