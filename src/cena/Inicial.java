@@ -50,11 +50,15 @@ public class Inicial implements GLEventListener{
     public boolean topo_inferior;
     private float xTranslateBall = 0;
     private float yTranslateBall = 100f;
-    
+    private boolean colisao = false;
+    private boolean colidiu = false;
+    private int score = 0;
+    public int mode = GL2.GL_FILL;
     Random r = new Random();
 
     @Override
     public void init(GLAutoDrawable drawable) {
+        textRenderer = new TextRenderer(new Font("Comic Sans MS Negrito", Font.BOLD, 15));
         //dados iniciais da cena
     }
 
@@ -66,18 +70,23 @@ public class Inicial implements GLEventListener{
         gl.glClearColor(0, 0, 0, 1);
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
-        
+        gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, mode);
+        String m = mode == GL2.GL_LINE ? "LINE" : "FILL";
+        dadosObjeto(gl, 510, 570, Color.WHITE , "Score: " + score);
+       
         switch (fase) {
 		case 0:
 			break;
 		case 1:
 			fase1();
+                       // desenhaTexto(gl, 70, 90, Color.WHITE, Integer.toString(score));
 			break;
 		case 2:
 			break;
 		case 3:
 			break;
 		}
+         
      //   desenha_estrelas(drawable,gl);
 //        desenhaTexto(gl,0,570, Color.YELLOW,  "Welcome to Galaxy Wars");
 //        desenhaTexto(gl,250,300, Color.YELLOW,  "Start");
@@ -106,7 +115,6 @@ public class Inicial implements GLEventListener{
         fisicaDaBola();
         desenhaBarra();
         desenhaBola();
-        
     }
     
     public void desenhaBarra(){
@@ -146,10 +154,10 @@ public class Inicial implements GLEventListener{
     }
     
     public void fisicaDaBola(){
-        if (xTranslateBall >= 100){
+        if (xTranslateBall >= 95){
             lado_direito = true;
             lado_esquerdo = false;
-        }else if (xTranslateBall <= -100){
+        }else if (xTranslateBall <= -95){
             lado_esquerdo = true;
             lado_direito = false;
             topo_inferior = false;
@@ -160,41 +168,63 @@ public class Inicial implements GLEventListener{
         }else if (yTranslateBall <= -100){
             topo_inferior = true;
             topo_superior = false;
+        }else if (xTranslateBall >= position-7.5 && xTranslateBall <= position+7.5 && yTranslateBall <=-95){
+//            System.out.println("COLISÃO!!!");
+            colisao = true;
+            topo_inferior = true;
+            topo_superior = false;
+            score += 10;
+        }else if (!(xTranslateBall >= position-7.5 && xTranslateBall <= position+7.5 && yTranslateBall <=-95)){
+//            System.out.println("SEM COLISÃO");
+            //  colisao = false;
+            //  colidiu = false;
         }
-        if (topo_inferior == true && lado_direito == true){
-            lado_direito = false;
-            lado_esquerdo = true;
-        }else if (lado_esquerdo == true && topo_inferior == true){
+        if (lado_esquerdo == true && topo_inferior == true && colisao == false){
+            System.out.println("ENTROU NO IF 2");
             xTranslateBall -= Math.random() * (0.8 - 0.5) + 0.5;
             yTranslateBall += Math.random() * (0.8 - 0.5) + 0.5;
         }
-        else if (lado_direito == true){
+        else if (lado_direito == true && topo_inferior == false){
+//            System.out.println("ENTROU NO IF 3");
             xTranslateBall -= Math.random() * (0.8 - 0.5) + 0.5;
             yTranslateBall -= Math.random() * (0.8 - 0.5) + 0.5;
-        }else if (lado_esquerdo == true && topo_superior == false){
-            xTranslateBall += Math.random() * (0.8 - 0.5) + 0.5;
-            yTranslateBall += Math.random() * (0.8 - 0.5) + 0.5;
-        }else if (lado_esquerdo == true){
+        }
+        else if (lado_esquerdo == true && topo_superior == true){
+//            System.out.println("ENTROU NO IF 4");
+            colidiu = false;
+            colisao = false;
             xTranslateBall += Math.random() * (0.8 - 0.5) + 0.5;
             yTranslateBall -= Math.random() * (0.8 - 0.5) + 0.5;
-        }
-        else if (topo_superior == true){
-            yTranslateBall -= Math.random() * (0.8 - 0.5) + 0.5;
-        }else if (topo_inferior == true){
+        }else if (lado_esquerdo == true && topo_superior == false && colisao == true){
+//            System.out.println("ENTROU NO IF 5");
+            xTranslateBall += Math.random() * (0.8 - 0.5) + 0.5;
             yTranslateBall += Math.random() * (0.8 - 0.5) + 0.5;
+        }else if (lado_esquerdo == true && topo_superior == false && topo_inferior == false && colisao == false){
+//            System.out.println("ENTROU NO IF 6");
+            xTranslateBall += Math.random() * (0.8 - 0.5) + 0.5;
+            yTranslateBall += Math.random() * (0.8 - 0.5) + 0.5;
+        }else if (topo_inferior == true & colisao == true){
+//            System.out.println("ENTROU NO IF 9");
+            xTranslateBall -= Math.random() * (0.8 - 0.5) + 0.5;
+            yTranslateBall += Math.random() * (0.8 - 0.5) + 0.5;
+            colidiu = true;
         }
+        else if (topo_inferior == true && colidiu == false){
+//            System.out.println("ENTROU NO IF 8");
+            xTranslateBall -= Math.random() * (0.8 - 0.5) + 0.5;
+            yTranslateBall -= Math.random() * (0.8 - 0.5) + 0.5;
+        }
+       // colidiu = false;
     }
 	
-    public void desenhaTexto(GL2 gl, int x, int y,Color cor, String frase) {
+    public void dadosObjeto(GL2 gl, int xPosicao, int yPosicao, Color cor, String frase){         
+        gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
+        //Retorna a largura e altura da janela
         textRenderer.beginRendering(Renderer.screenWidth, Renderer.screenHeight);       
         textRenderer.setColor(cor);
-
-        //glut = new GLUT(); //objeto da biblioteca glut
-        gl.glRasterPos2f(x, y);
-        textRenderer.draw(frase, x, y);
+        textRenderer.draw(frase, xPosicao, yPosicao);
         textRenderer.endRendering();
-
-        //glut.glutBitmapString(GLUT.BITMAP_8_BY_13, frase);
+        gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, mode);
     }
 
     @Override
