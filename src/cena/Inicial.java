@@ -45,6 +45,7 @@ public class Inicial implements GLEventListener{
     public int alturaFrame;
     public float position = 0.0f;
     private float livesAnimation = 0;
+    private boolean ispoint = true;
     
     public int fase;
     public float velocidade = 0;
@@ -218,10 +219,12 @@ public class Inicial implements GLEventListener{
         }else if (yTranslateBall >= 100){
             topo_superior = true;
             topo_inferior = false;
+            ispoint = true;
         }else if (yTranslateBall <= -100){
             topo_inferior = true;
             topo_superior = false;
-        }else if (xTranslateBall >= position-7.5 && xTranslateBall <= position+7.5 && yTranslateBall <=-95){
+            ispoint = true;
+        }else if (xTranslateBall >= position-6.7 && xTranslateBall <= position+7.5 && yTranslateBall <=-88 && ispoint){
             colisao = true;
             topo_inferior = true;
             topo_superior = false;
@@ -231,6 +234,7 @@ public class Inicial implements GLEventListener{
                 velocidade = 0.8f;
                 nomeFase += 1;
             }
+            ispoint = false;
         }
          if (lado_direito == true && topo_inferior == false){
             xTranslateBall -= ballSpeed;
@@ -243,6 +247,7 @@ public class Inicial implements GLEventListener{
             xTranslateBall += ballSpeed;
             yTranslateBall -= ballSpeed;
             subtrai_vida = false;
+            ispoint = true;
         }else if (lado_esquerdo == true && topo_superior == false && colisao == true){
             xTranslateBall += ballSpeed;
             yTranslateBall += ballSpeed;
